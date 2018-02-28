@@ -193,7 +193,8 @@ final class Bootstrap {
 
         try {
             // look for jar hell
-            JarHell.checkJarHell();
+            final Logger logger = ESLoggerFactory.getLogger(JarHell.class);
+            JarHell.checkJarHell(logger::debug);
         } catch (IOException | URISyntaxException e) {
             throw new BootstrapException(e);
         }
@@ -231,7 +232,7 @@ final class Bootstrap {
 
         try {
             keystore.decrypt(new char[0] /* TODO: read password from stdin */);
-            KeyStoreWrapper.upgrade(keystore, initialEnv.configFile());
+            KeyStoreWrapper.upgrade(keystore, initialEnv.configFile(), new char[0]);
         } catch (Exception e) {
             throw new BootstrapException(e);
         }
